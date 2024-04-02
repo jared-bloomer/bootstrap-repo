@@ -322,8 +322,8 @@ This project uses [GitHub issues][gh-issue] to [track bugs][gh-bug] and [feature
 
 def generate_readme():
   with open("output/README.md", "w") as readme:
-    readme.write("""
-![Github Actions](https://github.com/<github username>/<repo name>/actions/workflows/<action file name>.yml/badge.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![Contributors](https://img.shields.io/github/contributors/<github username>/>github repo name>) ![Issues](https://img.shields.io/github/issues/<Github Username>/<Github repo name>?color=0088ff) ![Pull Request](https://img.shields.io/github/issues-pr/<Github Username>/<Github Repo name>?color=0088ff)
+    readme.write(f"""
+![Github Actions](https://github.com/{org}/<repo name>/actions/workflows/<action file name>.yml/badge.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![Contributors](https://img.shields.io/github/contributors/{org}/>github repo name>) ![Issues](https://img.shields.io/github/issues/{org}/<Github repo name>?color=0088ff) ![Pull Request](https://img.shields.io/github/issues-pr/{org}/<Github Repo name>?color=0088ff)
 
 # Repo Name
 
