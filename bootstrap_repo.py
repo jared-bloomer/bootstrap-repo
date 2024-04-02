@@ -62,6 +62,9 @@ def get_args(argv: Sequence[str] | None = None) -> int:
   parser=argparse.ArgumentParser(description="Bootstrap a New Github Repository",
     prog="bootstrap_repo.py",
     epilog="Developed and Maintained by Jared Bloomer me@jaredbloomer.com")
+  parser.add_argument('-o', '--organization', required=True, action='store',
+    default=True,
+    help='Name of Github user or organization this repo is under.')
   parser.add_argument('-r', '--readme', required=True, action='store',
     default=True,
     help='Should a README.md template be created?')
@@ -167,7 +170,7 @@ body:
     feat.close()
 
 
-def generate_default_files(logger):
+def generate_default_files(logger, org):
   l=logger
 
   l.write_log("info", "Ensuring output/.github directory exist")
@@ -210,12 +213,12 @@ contact_links:
     ic.close()
 
   with open("output/SECURITY.md", "w") as s:
-    s.write("""
+    s.write(f"""
 ## Security
 
-<Organization Name> takes the security of our software products and services seriously, which includes all source code repositories managed through our GitHub organizations.
+{org} takes the security of our software products and services seriously, which includes all source code repositories managed through our GitHub organizations.
 
-If you believe you have found a security vulnerability in any <Organization Name>-owned repository  please report it to us as described below.
+If you believe you have found a security vulnerability in any {org}-owned repository  please report it to us as described below.
 
 ## Reporting Security Issues
             
@@ -301,19 +304,19 @@ This project uses [GitHub issues][gh-issue] to [track bugs][gh-bug] and [feature
 - [ ] Closes #xxx
 - [ ] Tests added/passed
 - [ ] Documentation updated
-   - If checked, please file a pull request on [our docs repo](https://github.com/MicrosoftDocs/terminal) and link it here: #xxx
+   - If checked, please file a pull request and link it here: #xxx
 - [ ] Schema updated (if necessary)
              """)
     prt.close()
 
   with open("output/CODEOWNERS.md", "w") as co:
-    co.write("""
+    co.write(f"""
 # Code owners file.
 # This file controls who is tagged for review for any given pull request.
-* @my-github-username
+* @{org}
 
 # For anything not explicitly taken by someone else:
-* @github-organization-name/team-name
+* @{org}/team-name
             """)
     co.close()
 
@@ -345,7 +348,7 @@ def main():
     os.makedirs("output")
 
   l.write_log("info", "Generating Default Files")
-  generate_default_files(l)
+  generate_default_files(l, args.organization)
 
   if args.readme:
     l.write_log("info", "Generating README.md file")
