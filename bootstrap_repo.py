@@ -333,7 +333,6 @@ def generate_readme():
 
 ## Usage
 
-
                  """)
 
     readme.close()
@@ -353,8 +352,6 @@ def main():
   if args.readme:
     l.write_log("info", "Generating README.md file")
     generate_readme()
-
-
 
 if __name__ == "__main__":
   try:
