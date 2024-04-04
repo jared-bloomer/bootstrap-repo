@@ -337,6 +337,21 @@ def generate_readme(org):
 
     readme.close()
 
+def get_license(logger, license):
+  l=logger
+  lic=license
+
+  l.write_log("info", f"Attempting to locate {lic} License file. All valid Licenses support can be found at https://github.com/OpenSourceOrg/licenses/tree/master/texts/plain")
+  base_url="https://github.com/OpenSourceOrg/licenses/raw/master/texts/plain/"
+  response=requests.get(base_url+lic)
+  if response.status_code == 200:
+    l.write_log("info", f"Downloading {lic} License file.")
+    with open("output/LICENSE.md", "w") as licfile:
+      licfile.write(response.text)
+    licfile.close()
+  else:
+    l.write_log("Error", f"Could not download {lic} license file. All valid Licenses support can be found at https://github.com/OpenSourceOrg/licenses/tree/master/texts/plain")
+
 def main():
   l=logs(os.path.basename(__file__))
   l.write_log("info", "Script logger has been initialzied.")
@@ -352,6 +367,10 @@ def main():
   if args.readme:
     l.write_log("info", "Generating README.md file")
     generate_readme(args.organization)
+
+  if args.license:
+    l.write_log("info", "Downloading LICENSE.md file")
+    get_license(l, args.license)
 
 if __name__ == "__main__":
   try:
