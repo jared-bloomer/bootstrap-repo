@@ -67,7 +67,7 @@ def get_args(argv: Sequence[str] | None = None) -> int:
     help='Name of Github user or organization this repo is under.')
   parser.add_argument('-r', '--readme', required=True, action='store',
     default=True,
-    help='Should a README.md template be created?')
+    help='Should a README.md template be created? Value should be True or False')
   parser.add_argument('-l', '--license', required=False, action='store',
     default="MIT",
     help='Should a LICENSE file be created?')
