@@ -320,10 +320,10 @@ This project uses [GitHub issues][gh-issue] to [track bugs][gh-bug] and [feature
             """)
     co.close()
 
-def generate_readme(org):
+def generate_readme(org, lic):
   with open("output/README.md", "w") as readme:
     readme.write(f"""
-![Github Actions](https://github.com/{org}/<repo name>/actions/workflows/<action file name>.yml/badge.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![Contributors](https://img.shields.io/github/contributors/{org}/>github repo name>) ![Issues](https://img.shields.io/github/issues/{org}/<Github repo name>?color=0088ff) ![Pull Request](https://img.shields.io/github/issues-pr/{org}/<Github Repo name>?color=0088ff)
+![Github Actions](https://github.com/{org}/<repo name>/actions/workflows/<action file name>.yml/badge.svg) ![GitHub License](https://img.shields.io/github/license/{org}/<repo name>) ![Contributors](https://img.shields.io/github/contributors/{org}/>github repo name>) ![Issues](https://img.shields.io/github/issues/{org}/<Github repo name>?color=0088ff) ![Pull Request](https://img.shields.io/github/issues-pr/{org}/<Github Repo name>?color=0088ff)
 
 # Repo Name
 
@@ -366,7 +366,7 @@ def main():
 
   if args.readme:
     l.write_log("info", "Generating README.md file")
-    generate_readme(args.organization)
+    generate_readme(args.organization, args.license)
 
   if args.license:
     l.write_log("info", "Downloading LICENSE.md file")
