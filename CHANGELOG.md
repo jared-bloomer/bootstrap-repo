@@ -13,6 +13,7 @@
     * SECURITY.md
     * CONTRIBUTING.md
     * SUPPORT.md
+    * .github/PULL_REQUEST_TEMPLATE.md
 
 # v1.1.0
 * Added `-l`, `--license` option to generate a `LICENSE.md` file in the root of the repo

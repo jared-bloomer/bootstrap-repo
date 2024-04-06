@@ -178,23 +178,11 @@ def generate_default_files(logger, org, lic, repo):
     support.write(support_content)
     support.close()
 
+  pr_template = environment.get_template("pull_request_template.jinja2")
+  pr_vars = {}
+  pr_content = pr_template.render(pr_vars)
   with open("output/.github/PULL_REQUEST_TEMPLATE.md", "w") as prt:
-    prt.write("""
-## Summary of the Pull Request
-
-## References and Relevant Issues
-
-## Detailed Description of the Pull Request / Additional comments
-
-## Validation Steps Performed
-
-## PR Checklist
-- [ ] Closes #xxx
-- [ ] Tests added/passed
-- [ ] Documentation updated
-   - If checked, please file a pull request and link it here: #xxx
-- [ ] Schema updated (if necessary)
-             """)
+    prt.write(pr_content)
     prt.close()
 
   with open("output/CODEOWNERS.md", "w") as co:
