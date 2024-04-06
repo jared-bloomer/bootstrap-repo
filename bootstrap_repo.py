@@ -133,22 +133,19 @@ def generate_default_files(logger, org, lic, repo):
   generate_readme(org, lic, repo)
 
   l.write_log("info", "Creating output/CHANGELOG.md")
+  changelog_template = environment.get_template("changelog.jinja2")
+  changelog_vars = {}
+  changelog_content = changelog_template.render(changelog_vars)
   with open("output/CHANGELOG.md", "w") as cl:
-    cl.write("""
-# Unreleased
-* initial repo creation
-             """)
+    cl.write(changelog_content)
     cl.close()
 
   l.write_log("info", "Creating output/.github/ISSUE_TEMPLATE/config.yml")
+  ic_template = environment.get_template("issue_config.jinja2")
+  ic_vars = {}
+  ic_content = ic_template.render(ic_vars)
   with open("output/.github/ISSUE_TEMPLATE/config.yml", "w") as ic:
-    ic.write("""
-blank_issues_enabled: false
-contact_links:
-  - name: GitHub Support
-    url: https://support.github.com/contact
-    about: Contact Support if you're having trouble with your GitHub account.
-             """)
+    ic.write(ic_content)
     ic.close()
 
   with open("output/SECURITY.md", "w") as s:

@@ -6,7 +6,9 @@
 * Implement jinja2 templating for
     * .github/ISSUE_TEMPLATE/bug.yml
     * .github/ISSUE_TEMPLATE/feature_request.yml
+    * .github/ISSUE_TEMPLATE/config.yml
     * README.md
+    * CHANGELOG.md
 
 # v1.1.0
 * Added `-l`, `--license` option to generate a `LICENSE.md` file in the root of the repo

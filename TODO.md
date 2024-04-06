@@ -6,7 +6,8 @@
 - [ ] CONTRIBUTING.md
 - [ ] SECURITY.md
 - [ ] SUPPORT.md
+- [X] CHANGELOG.md
 - [ ] .github/PULL_REQUEST_TEMPLATE.md
 - [X] .github/ISSUE_TEMPLATE/bug.yml
 - [X] .github/ISSUE_TEMPLATE/feature_request.yml
-- [ ] .github/ISSUE_TEMPLATE/config.yml
+- [X] .github/ISSUE_TEMPLATE/config.yml
