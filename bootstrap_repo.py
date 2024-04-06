@@ -186,12 +186,11 @@ We prefer all communications to be in English.
              """)
     s.close()
 
+  coc_template = environment.get_template("code_of_conduct.jinja2")
+  coc_vars = {}
+  coc_content = coc_template.render(coc_vars)
   with open("output/CODE_OF_CONDUCT.md", "w") as cc:
-    cc.write("""
-# Code of Conduct
-
-Be nice and respectful.
-             """)
+    cc.write(coc_content)
     cc.close()
 
   with open("output/CONTRIBUTING.md", "w") as c:

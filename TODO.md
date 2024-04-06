@@ -2,7 +2,7 @@
 ### Default Files
 - [X] README.md
 - [ ] CODEOWNERS.md
-- [ ] CODE_OF_CONDUCT.md
+- [X] CODE_OF_CONDUCT.md
 - [ ] CONTRIBUTING.md
 - [ ] SECURITY.md
 - [ ] SUPPORT.md
