@@ -105,20 +105,15 @@ def generate_feature_request_template(logger, org):
     feat.close()
 
 def generate_readme(org, lic, repo):
+  readme_template = environment.get_template("readme.jinja2")
+  readme_vars = {
+    "org": org,
+    "lic": lic,
+    "repo": repo,
+  }
+  readme_content = readme_template.render(readme_vars)
   with open("output/README.md", "w") as readme:
-    readme.write(f"""
-![Github Actions](https://github.com/{org}/{repo}/actions/workflows/<action file name>.yml/badge.svg) ![GitHub License](https://img.shields.io/github/license/{org}/{repo}) ![Contributors](https://img.shields.io/github/contributors/{org}/{repo}) ![Issues](https://img.shields.io/github/issues/{org}/{repo}?color=0088ff) ![Pull Request](https://img.shields.io/github/issues-pr/{org}/{repo}?color=0088ff)
-
-# Repo Name
-
-## Description
-
-## Installation
-
-## Usage
-
-                 """)
-
+    readme.write(readme_content)
     readme.close()
 
 def generate_default_files(logger, org, lic, repo):
