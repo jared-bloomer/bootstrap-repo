@@ -21,5 +21,5 @@ It is recommended to use a Python virtual environment to run this to ensure you 
 
 For the full help of this script please run `./bootstrap_repo.py -h`
 
-For most cases you can simply run `./bootstrap_repo.py -r True -o my-organization-name`
+For most cases you can simply run `./bootstrap_repo.py -r my-repo-name -o my-organization-name -l MIT`
                  
