@@ -3,7 +3,7 @@
 - [X] README.md
 - [ ] CODEOWNERS.md
 - [X] CODE_OF_CONDUCT.md
-- [ ] CONTRIBUTING.md
+- [X] CONTRIBUTING.md
 - [X] SECURITY.md
 - [ ] SUPPORT.md
 - [X] CHANGELOG.md
