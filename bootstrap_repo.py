@@ -86,96 +86,22 @@ def generate_bug_template(logger, org):
   bug_vars = {
     "org": org,
   }
-  content = bug_template.render(bug_vars)
+  bug_content = bug_template.render(bug_vars)
   with open("output/.github/ISSUE_TEMPLATE/bug.yml", "w") as bug:
-    bug.write(content)
-#     bug.write("""
-# name: 🐛Bug Report
-# description: File a bug report here
-# title: "[BUG]: "
-# labels: ["bug"]
-# assignees: ["<My Github Username>"]
-# body:
-#   - type: markdown
-#     attributes:
-#       value: |
-#         Thanks for taking the time to fill out this bug report!!!
-#   - type: checkboxes
-#     id: new-bug
-#     attributes:
-#       label: Is there an existing issue for this?
-#       description: Please search to see if an issue already exists for the bug you encountered.
-#       options:
-#       - label: I have searched the existing issues
-#         required: true
-#   - type: textarea
-#     id: bug-description
-#     attributes:
-#       label: Description of the bug
-#       description: Tell us what bug you encountered and what should have happened
-#     validations:
-#       required: true
-#   - type: textarea
-#     id: steps-to-reproduce
-#     attributes:
-#       label: Steps To Reproduce
-#       description: Steps to reproduce the behavior.
-#       placeholder: Please write the steps in a list form
-#     validations:
-#       required: true
-#   - type: dropdown
-#     id: versions
-#     attributes:
-#       label: Which version of the app are you using?
-#       description: If this issue is occurring on more than 1 version of the app, select the appropriate versions.
-#       multiple: true
-#       options:
-#        - 1.0.0
-#     validations:
-#       required: true
-#              """)
+    bug.write(bug_content)
     bug.close()
 
-def generate_feature_request_template(logger):
+def generate_feature_request_template(logger, org):
   l=logger
 
   l.write_log("info", "Creating output/.github/ISSUE_TEMPLATE/feature_request.yml")
+  feat_template = environment.get_template("feature_requests.jinja2")
+  feat_vars = {
+    "org": org,
+  }
+  feat_content = feat_template.render(feat_vars)
   with open("output/.github/ISSUE_TEMPLATE/feature_request.yml", "w") as feat:
-    feat.write("""
-name: 🚀Feature request
-description: Suggest and idea for improvement
-title: "[Feat]: "
-labels: ["Enhancement"]
-assignees: ["<My Github Username>"]
-body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this feature request!!!
-  - type: checkboxes
-    id: new-feature
-    attributes:
-      label: Is there an existing issue/feature for this?
-      description: Please search to see if an issue or feature request already exists for this.
-      options:
-      - label: I have searched the existing issues
-        required: true
-  - type: textarea
-    id: feature-description
-    attributes:
-      label: Description of the feature
-      description: Tell us what this feature is about and what it will do.
-    validations:
-      required: true
-  - type: textarea
-    id: value
-    attributes:
-      label: What value will this feature add?
-      description: Provide examples of what value will be added by implementing the feature.
-      placeholder: Please write the values in a list form
-    validations:
-      required: true
-             """)
+    feat.write(feat_content)
     feat.close()
 
 def generate_readme(org, lic, repo):
@@ -207,18 +133,9 @@ def generate_default_files(logger, org, lic, repo):
     os.makedirs("output/.github/ISSUE_TEMPLATE")
 
   generate_bug_template(l, org)
-  generate_feature_request_template(l)
+  generate_feature_request_template(l, org)
   l.write_log("info", "Generating README.md file")
   generate_readme(org, lic, repo)
-
-  # Path.touch("output/CHANGELOG.md")
-  # Path.touch("output/SUPPORT.md")
-  # Path.touch("output/SECURITY.md")
-  # Path.touch("output/CODE_OF_CONDUCT.md")
-  # Path.touch("output/CONTRIBUTING.md")
-  # Path.touch("output/CODEOWNERS.md")
-  # Path.touch("output/.github/ISSUE_TEMPLATE/config.yml")
-  # Path.touch("output/.github/PULL_REQUEST_TEMPLATE.md")
 
   l.write_log("info", "Creating output/CHANGELOG.md")
   with open("output/CHANGELOG.md", "w") as cl:
