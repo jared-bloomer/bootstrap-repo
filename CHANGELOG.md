@@ -15,6 +15,7 @@
     * SUPPORT.md
     * .github/PULL_REQUEST_TEMPLATE.md
     * CODEOWNERS.md
+* Wrapped main logic in try/except statement to write Exceptions to log file
 
 # v1.1.0
 * Added `-l`, `--license` option to generate a `LICENSE.md` file in the root of the repo

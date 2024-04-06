@@ -211,19 +211,22 @@ def get_license(logger, license):
 
 def main():
   l=logs(os.path.basename(__file__))
-  l.write_log("info", "Script logger has been initialzied.")
-  args = get_args()
+  try:
+    l.write_log("info", "Script logger has been initialzied.")
+    args = get_args()
 
-  l.write_log("info", "Ensuring output directory exist")
-  if not os.path.exists("output"):
-    os.makedirs("output")
+    l.write_log("info", "Ensuring output directory exist")
+    if not os.path.exists("output"):
+      os.makedirs("output")
 
-  l.write_log("info", "Generating Default Files")
-  generate_default_files(l, args.organization, args.license, args.repo)
+    l.write_log("info", "Generating Default Files")
+    generate_default_files(l, args.organization, args.license, args.repo)
 
-  if args.license:
-    l.write_log("info", "Downloading LICENSE.md file")
-    get_license(l, args.license)
+    if args.license:
+      l.write_log("info", "Downloading LICENSE.md file")
+      get_license(l, args.license)
+  except Exception as e:
+    l.write_log("error", e)
 
 if __name__ == "__main__":
   try:
