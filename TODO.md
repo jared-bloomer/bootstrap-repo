@@ -5,7 +5,7 @@
 - [X] CODE_OF_CONDUCT.md
 - [X] CONTRIBUTING.md
 - [X] SECURITY.md
-- [ ] SUPPORT.md
+- [X] SUPPORT.md
 - [X] CHANGELOG.md
 - [ ] .github/PULL_REQUEST_TEMPLATE.md
 - [X] .github/ISSUE_TEMPLATE/bug.yml

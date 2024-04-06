@@ -171,14 +171,11 @@ def generate_default_files(logger, org, lic, repo):
     c.write(contrib_content)        
     c.close()
 
+  support_template = environment.get_template("support.jinja2")
+  support_vars = {}
+  support_content = support_template.render(support_vars)
   with open("output/SUPPORT.md", "w") as support:
-    support.write("""
-# Support
-
-## How to file issues and get help  
-
-This project uses [GitHub issues][gh-issue] to [track bugs][gh-bug] and [feature requests][gh-feature]. Please search the existing issues before filing new issues to avoid duplicates. For new topics, file your bug or feature request as a new issue.
-""")
+    support.write(support_content)
     support.close()
 
   with open("output/.github/PULL_REQUEST_TEMPLATE.md", "w") as prt:
