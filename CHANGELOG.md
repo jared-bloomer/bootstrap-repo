@@ -1,4 +1,4 @@
-# Unreleased
+# v2.0.0
 * Moved Readme creation to default files Generates
 * Changed `-r` argument to repo name
 * Added repo name to README.md templating
