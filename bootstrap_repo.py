@@ -148,42 +148,13 @@ def generate_default_files(logger, org, lic, repo):
     ic.write(ic_content)
     ic.close()
 
+  security_template = environment.get_template("security.jinja2")
+  security_vars = {
+    "org": org,
+  }
+  security_content = security_template.render(security_vars)
   with open("output/SECURITY.md", "w") as s:
-    s.write(f"""
-## Security
-
-{org} takes the security of our software products and services seriously, which includes all source code repositories managed through our GitHub organizations.
-
-If you believe you have found a security vulnerability in any {org}-owned repository  please report it to us as described below.
-
-## Reporting Security Issues
-            
-To report a security related issue, please open an issue on this repository and describe the details using the following template
-
-```
-# Security Vulnerability Description
-
-## Type of issue (e.g. buffer overflow, SQL injection, cross-site scripting, etc.)
-            
-## References to any CVE's
-            
-## Advanced Details
-### Files with security vulnerability
-
-### Location of impacted source code (if known)
-
-### Steps to reproduce issue
-            
-### Proof of concept of exploitation (if possible)
-            
-## Impact of Vulnerability
-
-```
-            
-## Preferred Languages
-
-We prefer all communications to be in English.
-             """)
+    s.write(security_content)
     s.close()
 
   coc_template = environment.get_template("code_of_conduct.jinja2")
@@ -281,10 +252,6 @@ def main():
 
   l.write_log("info", "Generating Default Files")
   generate_default_files(l, args.organization, args.license, args.repo)
-
-  # if args.readme:
-  #   l.write_log("info", "Generating README.md file")
-  #   generate_readme(args.organization, args.license)
 
   if args.license:
     l.write_log("info", "Downloading LICENSE.md file")

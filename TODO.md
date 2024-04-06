@@ -4,7 +4,7 @@
 - [ ] CODEOWNERS.md
 - [X] CODE_OF_CONDUCT.md
 - [ ] CONTRIBUTING.md
-- [ ] SECURITY.md
+- [X] SECURITY.md
 - [ ] SUPPORT.md
 - [X] CHANGELOG.md
 - [ ] .github/PULL_REQUEST_TEMPLATE.md
