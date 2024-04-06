@@ -185,15 +185,13 @@ def generate_default_files(logger, org, lic, repo):
     prt.write(pr_content)
     prt.close()
 
+  co_template = environment.get_template("codeowners.jinja2")
+  co_vars = {
+    "org": org,
+  }
+  co_content = co_template.render(co_vars)
   with open("output/CODEOWNERS.md", "w") as co:
-    co.write(f"""
-# Code owners file.
-# This file controls who is tagged for review for any given pull request.
-* @{org}
-
-# For anything not explicitly taken by someone else:
-* @{org}/team-name
-            """)
+    co.write(co_content)
     co.close()
 
 def get_license(logger, license):

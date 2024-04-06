@@ -1,7 +1,7 @@
 ## Refactor File creation based on Jinja2 templating
 ### Default Files
 - [X] README.md
-- [ ] CODEOWNERS.md
+- [X] CODEOWNERS.md
 - [X] CODE_OF_CONDUCT.md
 - [X] CONTRIBUTING.md
 - [X] SECURITY.md
