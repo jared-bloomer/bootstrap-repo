@@ -11,8 +11,8 @@ This script is designed to do the intial file creation in a brand new empty git 
 __author__      = "Jared Bloomer"
 __copyright__   = "Copyright 2024"
 __credits__     = ["Jared Bloomer"]
-__license__     = "GPL"
-__version__     = "1.0.0"
+__license__     = "GPL-3.0"
+__version__     = "1.1.0"
 __maintainer__  = "Jared Bloomer"
 __email__       = "me@jaredbloomer.com"
 __status__      = "Production"
@@ -24,6 +24,9 @@ from pathlib import Path
 import logging
 import requests
 import argparse
+from jinja2 import Environment, FileSystemLoader
+
+environment = Environment(loader=FileSystemLoader("templates/"), autoescape=True)
 
 class logs:
   def __init__ (self, file):
@@ -65,9 +68,9 @@ def get_args(argv: Sequence[str] | None = None) -> int:
   parser.add_argument('-o', '--organization', required=True, action='store',
     default=True,
     help='Name of Github user or organization this repo is under.')
-  parser.add_argument('-r', '--readme', required=True, action='store',
+  parser.add_argument('-r', '--repo', required=True, action='store',
     default=True,
-    help='Should a README.md template be created? Value should be True or False')
+    help='Name of Github Repo')
   parser.add_argument('-l', '--license', required=False, action='store',
     default="MIT",
     help='Should a LICENSE file be created?')
@@ -75,56 +78,62 @@ def get_args(argv: Sequence[str] | None = None) -> int:
   args = parser.parse_args(argv)
   return args
 
-def generate_bug_template(logger):
+def generate_bug_template(logger, org):
   l=logger
 
   l.write_log("info", "Creating output/.github/ISSUE_TEMPLATE/bug.yml")
+  bug_template = environment.get_template("bug.jinja2")
+  bug_vars = {
+    "org": org,
+  }
+  content = bug_template.render(bug_vars)
   with open("output/.github/ISSUE_TEMPLATE/bug.yml", "w") as bug:
-    bug.write("""
-name: 🐛Bug Report
-description: File a bug report here
-title: "[BUG]: "
-labels: ["bug"]
-assignees: ["<My Github Username>"]
-body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!!!
-  - type: checkboxes
-    id: new-bug
-    attributes:
-      label: Is there an existing issue for this?
-      description: Please search to see if an issue already exists for the bug you encountered.
-      options:
-      - label: I have searched the existing issues
-        required: true
-  - type: textarea
-    id: bug-description
-    attributes:
-      label: Description of the bug
-      description: Tell us what bug you encountered and what should have happened
-    validations:
-      required: true
-  - type: textarea
-    id: steps-to-reproduce
-    attributes:
-      label: Steps To Reproduce
-      description: Steps to reproduce the behavior.
-      placeholder: Please write the steps in a list form
-    validations:
-      required: true
-  - type: dropdown
-    id: versions
-    attributes:
-      label: Which version of the app are you using?
-      description: If this issue is occurring on more than 1 version of the app, select the appropriate versions.
-      multiple: true
-      options:
-       - 1.0.0
-    validations:
-      required: true
-             """)
+    bug.write(content)
+#     bug.write("""
+# name: 🐛Bug Report
+# description: File a bug report here
+# title: "[BUG]: "
+# labels: ["bug"]
+# assignees: ["<My Github Username>"]
+# body:
+#   - type: markdown
+#     attributes:
+#       value: |
+#         Thanks for taking the time to fill out this bug report!!!
+#   - type: checkboxes
+#     id: new-bug
+#     attributes:
+#       label: Is there an existing issue for this?
+#       description: Please search to see if an issue already exists for the bug you encountered.
+#       options:
+#       - label: I have searched the existing issues
+#         required: true
+#   - type: textarea
+#     id: bug-description
+#     attributes:
+#       label: Description of the bug
+#       description: Tell us what bug you encountered and what should have happened
+#     validations:
+#       required: true
+#   - type: textarea
+#     id: steps-to-reproduce
+#     attributes:
+#       label: Steps To Reproduce
+#       description: Steps to reproduce the behavior.
+#       placeholder: Please write the steps in a list form
+#     validations:
+#       required: true
+#   - type: dropdown
+#     id: versions
+#     attributes:
+#       label: Which version of the app are you using?
+#       description: If this issue is occurring on more than 1 version of the app, select the appropriate versions.
+#       multiple: true
+#       options:
+#        - 1.0.0
+#     validations:
+#       required: true
+#              """)
     bug.close()
 
 def generate_feature_request_template(logger):
@@ -169,8 +178,24 @@ body:
              """)
     feat.close()
 
+def generate_readme(org, lic, repo):
+  with open("output/README.md", "w") as readme:
+    readme.write(f"""
+![Github Actions](https://github.com/{org}/{repo}/actions/workflows/<action file name>.yml/badge.svg) ![GitHub License](https://img.shields.io/github/license/{org}/{repo}) ![Contributors](https://img.shields.io/github/contributors/{org}/{repo}) ![Issues](https://img.shields.io/github/issues/{org}/{repo}?color=0088ff) ![Pull Request](https://img.shields.io/github/issues-pr/{org}/{repo}?color=0088ff)
 
-def generate_default_files(logger, org):
+# Repo Name
+
+## Description
+
+## Installation
+
+## Usage
+
+                 """)
+
+    readme.close()
+
+def generate_default_files(logger, org, lic, repo):
   l=logger
 
   l.write_log("info", "Ensuring output/.github directory exist")
@@ -181,17 +206,19 @@ def generate_default_files(logger, org):
   if not os.path.exists("output/.github/ISSUE_TEMPLATE"):
     os.makedirs("output/.github/ISSUE_TEMPLATE")
 
-  generate_bug_template(l)
+  generate_bug_template(l, org)
   generate_feature_request_template(l)
+  l.write_log("info", "Generating README.md file")
+  generate_readme(org, lic, repo)
 
-  Path.touch("output/CHANGELOG.md") # Templated
-  Path.touch("output/SUPPORT.md") # Templated
-  Path.touch("output/SECURITY.md") # Templated
-  Path.touch("output/CODE_OF_CONDUCT.md") # Templated
-  Path.touch("output/CONTRIBUTING.md") # Templated
-  Path.touch("output/CODEOWNERS.md") # Templated
-  Path.touch("output/.github/ISSUE_TEMPLATE/config.yml") # Templated
-  Path.touch("output/.github/PULL_REQUEST_TEMPLATE.md") # Templated
+  # Path.touch("output/CHANGELOG.md")
+  # Path.touch("output/SUPPORT.md")
+  # Path.touch("output/SECURITY.md")
+  # Path.touch("output/CODE_OF_CONDUCT.md")
+  # Path.touch("output/CONTRIBUTING.md")
+  # Path.touch("output/CODEOWNERS.md")
+  # Path.touch("output/.github/ISSUE_TEMPLATE/config.yml")
+  # Path.touch("output/.github/PULL_REQUEST_TEMPLATE.md")
 
   l.write_log("info", "Creating output/CHANGELOG.md")
   with open("output/CHANGELOG.md", "w") as cl:
@@ -320,23 +347,6 @@ This project uses [GitHub issues][gh-issue] to [track bugs][gh-bug] and [feature
             """)
     co.close()
 
-def generate_readme(org, lic):
-  with open("output/README.md", "w") as readme:
-    readme.write(f"""
-![Github Actions](https://github.com/{org}/<repo name>/actions/workflows/<action file name>.yml/badge.svg) ![GitHub License](https://img.shields.io/github/license/{org}/<repo name>) ![Contributors](https://img.shields.io/github/contributors/{org}/>github repo name>) ![Issues](https://img.shields.io/github/issues/{org}/<Github repo name>?color=0088ff) ![Pull Request](https://img.shields.io/github/issues-pr/{org}/<Github Repo name>?color=0088ff)
-
-# Repo Name
-
-## Description
-
-## Installation
-
-## Usage
-
-                 """)
-
-    readme.close()
-
 def get_license(logger, license):
   l=logger
   lic=license
@@ -362,11 +372,11 @@ def main():
     os.makedirs("output")
 
   l.write_log("info", "Generating Default Files")
-  generate_default_files(l, args.organization)
+  generate_default_files(l, args.organization, args.license, args.repo)
 
-  if args.readme:
-    l.write_log("info", "Generating README.md file")
-    generate_readme(args.organization, args.license)
+  # if args.readme:
+  #   l.write_log("info", "Generating README.md file")
+  #   generate_readme(args.organization, args.license)
 
   if args.license:
     l.write_log("info", "Downloading LICENSE.md file")
