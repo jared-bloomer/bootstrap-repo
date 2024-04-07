@@ -78,15 +78,19 @@ def get_args(argv: Sequence[str] | None = None) -> int:
   args = parser.parse_args(argv)
   return args
 
+def get_file_contents(file, context):
+    template = environment.get_template(file)
+    content = template.render(context)
+    return content
+
 def generate_bug_template(logger, org):
   l=logger
 
   l.write_log("info", "Creating output/.github/ISSUE_TEMPLATE/bug.yml")
-  bug_template = environment.get_template("bug.jinja2")
   bug_vars = {
     "org": org,
   }
-  bug_content = bug_template.render(bug_vars)
+  bug_content = get_file_contents("bug.jinja2", bug_vars)
   with open("output/.github/ISSUE_TEMPLATE/bug.yml", "w") as bug:
     bug.write(bug_content)
     bug.close()
@@ -95,23 +99,21 @@ def generate_feature_request_template(logger, org):
   l=logger
 
   l.write_log("info", "Creating output/.github/ISSUE_TEMPLATE/feature_request.yml")
-  feat_template = environment.get_template("feature_requests.jinja2")
   feat_vars = {
     "org": org,
   }
-  feat_content = feat_template.render(feat_vars)
+  feat_content = get_file_contents("feature_requests.jinja2", feat_vars)
   with open("output/.github/ISSUE_TEMPLATE/feature_request.yml", "w") as feat:
     feat.write(feat_content)
     feat.close()
 
 def generate_readme(org, lic, repo):
-  readme_template = environment.get_template("readme.jinja2")
   readme_vars = {
     "org": org,
     "lic": lic,
     "repo": repo,
   }
-  readme_content = readme_template.render(readme_vars)
+  readme_content = get_file_contents("readme.jinja2", readme_vars)
   with open("output/README.md", "w") as readme:
     readme.write(readme_content)
     readme.close()
@@ -133,63 +135,61 @@ def generate_default_files(logger, org, lic, repo):
   generate_readme(org, lic, repo)
 
   l.write_log("info", "Creating output/CHANGELOG.md")
-  changelog_template = environment.get_template("changelog.jinja2")
   changelog_vars = {}
-  changelog_content = changelog_template.render(changelog_vars)
+  changelog_content = get_file_contents("changelog.jinja2", changelog_vars)
   with open("output/CHANGELOG.md", "w") as cl:
     cl.write(changelog_content)
     cl.close()
 
   l.write_log("info", "Creating output/.github/ISSUE_TEMPLATE/config.yml")
-  ic_template = environment.get_template("issue_config.jinja2")
   ic_vars = {}
-  ic_content = ic_template.render(ic_vars)
+  ic_content = get_file_contents("issue_config.jinja2", ic_vars)
   with open("output/.github/ISSUE_TEMPLATE/config.yml", "w") as ic:
     ic.write(ic_content)
     ic.close()
 
-  security_template = environment.get_template("security.jinja2")
+  l.write_log("info", "Creating output/SECURITY.md")
   security_vars = {
     "org": org,
   }
-  security_content = security_template.render(security_vars)
+  security_content = get_file_contents("security.jinja2", security_vars)
   with open("output/SECURITY.md", "w") as s:
     s.write(security_content)
     s.close()
 
-  coc_template = environment.get_template("code_of_conduct.jinja2")
+  l.write_log("info", "Creating output/CODE_OF_CONDUCT.md")
   coc_vars = {}
-  coc_content = coc_template.render(coc_vars)
+  coc_content = get_file_contents("code_of_conduct.jinja2", coc_vars)
   with open("output/CODE_OF_CONDUCT.md", "w") as cc:
     cc.write(coc_content)
     cc.close()
 
-  contrib_template = environment.get_template("contributing.jinja2")
+  l.write_log("info", "Creating output/CONTRIBUTING.md")
   contrib_vars = {}
-  contrib_content = contrib_template.render(contrib_vars)
+  contrib_content = get_file_contents("contributing.jinja2", contrib_vars)
   with open("output/CONTRIBUTING.md", "w") as c:
     c.write(contrib_content)        
     c.close()
 
-  support_template = environment.get_template("support.jinja2")
+  l.write_log("info", "Creating output/SUPPORT.md")
   support_vars = {}
-  support_content = support_template.render(support_vars)
+  support_content = get_file_contents("support.jinja2", support_vars)
   with open("output/SUPPORT.md", "w") as support:
     support.write(support_content)
     support.close()
 
-  pr_template = environment.get_template("pull_request_template.jinja2")
+  l.write_log("info", "Creating output/.github/PULL_REQUEST_TEMPLATE.md")
   pr_vars = {}
-  pr_content = pr_template.render(pr_vars)
+  pr_content = get_file_contents("pull_request_template.jinja2", pr_vars)
   with open("output/.github/PULL_REQUEST_TEMPLATE.md", "w") as prt:
     prt.write(pr_content)
     prt.close()
 
-  co_template = environment.get_template("codeowners.jinja2")
+  l.write_log("info", "Creating output/CODEOWNERS.md")
   co_vars = {
     "org": org,
   }
-  co_content = co_template.render(co_vars)
+  co_content = get_file_contents("codeowners.jinja2", co_vars)
   with open("output/CODEOWNERS.md", "w") as co:
     co.write(co_content)
     co.close()
