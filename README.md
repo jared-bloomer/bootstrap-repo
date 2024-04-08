@@ -6,6 +6,14 @@
 ## Description
 This python script will generate base advanced level file configuration to be placed in any newly create github repo to get your repo standards to the next level. 
 
+## Reasons To Use This
+* Set a standard for repository generation
+* Maintain compliance across multiple repositories
+* Leverage more advanced features of Github
+
+## Reasons NOT To Use This
+* You already have tooling in place to accomplish the same functionality
+
 ## Installation
 
 It is recommended to use a Python virtual environment to run this to ensure you are able to install the prerequisite packages in `requirements.txt` without installing them system wide. 
@@ -15,11 +23,13 @@ It is recommended to use a Python virtual environment to run this to ensure you 
 3. Create a Python Virtual Environment with the command `python3 -m venv .venv`
 4. Activate the new virtual environment with the command `source .venv/bin/activate`
 5. Install the Python prerequisite packages with the command `pip install -r requirements.txt`
-6. Run the bootstrap_repo.py script to create the files. The created files will be in an directory named `output`.
+6. Run the `bootstrap_repo.py` script to create the files. The created files will be in an directory named `output`.
 
 ## Usage
 
 For the full help of this script please run `./bootstrap_repo.py -h`
 
 For most cases you can simply run `./bootstrap_repo.py -r my-repo-name -o my-organization-name -l MIT`
+
+All available License Files that can be downloaded can be found in the [OpenSourceOrg Repo](https://github.com/OpenSourceOrg/licenses/tree/master/texts/plain). Use the filename as the value for the `-l, --license` option at runtime. 
                  
