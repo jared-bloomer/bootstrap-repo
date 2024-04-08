@@ -1,8 +1,6 @@
 
-# Code owners file.
-# This file controls who is tagged for review for any given pull request.
+# Default owners if no specific ones are below
 * @jared-bloomer
 
-# For anything not explicitly taken by someone else:
-* @jared-bloomer
-            
+# Only Allow DevOps or Admin teams to change CODEOWNERS
+CODEOWNERS @jared-bloomer
