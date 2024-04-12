@@ -1,5 +1,6 @@
 # Unreleased
 * Refactored templated content generation
+* Updated PULL_REQUEST_TEMPLATE.jinja2 to new content
  
 # v2.0.0
 * Moved Readme creation to default files Generates
